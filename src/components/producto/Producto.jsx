@@ -32,10 +32,7 @@ export const Producto = (props) => {
       </Card.Header>
       <Card.Body>
         <Tabs defaultActiveKey="datos" className="mb-3 justify-content-between">
-          <Tab
-            eventKey="datos"
-            title={<CardList />}
-          >
+          <Tab eventKey="datos" title={<CardList />}>
             <div>
               <h6 className="font-monospace text-capitalize text-center">
                 {props.valores.categoria}
@@ -49,11 +46,9 @@ export const Producto = (props) => {
                   </h4>
                 </Col>
                 <Col>
-                  <h4>
-                    <h5>
-                      <BoxSeamFill /> {props.valores.cantidad}
-                    </h5>
-                  </h4>
+                  <h5>
+                    <BoxSeamFill /> {props.valores.cantidad}
+                  </h5>
                 </Col>
               </Row>
             </div>
