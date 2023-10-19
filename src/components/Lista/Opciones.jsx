@@ -1,7 +1,14 @@
 import { Col, Row, Form, Button, InputGroup } from "react-bootstrap";
 import { BagPlus, Search } from "react-bootstrap-icons";
+import { BotonModalCrear } from "./BotonModalCrear";
 
 const Opciones = () => {
+  const categorias = [
+    "Categoria 1",
+    "Categoria 2",
+    "Categoria 3",
+    "Categoria 4",
+  ];
   return (
     <Row>
       <Col xs={12} sm={12} md={6} className="mb-3">
@@ -14,24 +21,22 @@ const Opciones = () => {
             aria-label="Nombre del Producto"
             type="text"
           ></Form.Control>
-          <Button variant="secondary">Button</Button>
+          <Button variant="secondary">Buscar</Button>
         </InputGroup>
       </Col>
       <Col xs={12} sm={12} md={6}>
         <Row>
           <Col>
             <Form.Select>
-              <option value="0" selected>
-                Categorias
-              </option>
-              <option value="1">Categoría 1</option>
-              <option value="2">Categoría 2</option>
-              <option value="3">Categoría 3</option>
-              <option value="3">Categoría 4</option>
+              <option key="default">Categorias</option>
+              {categorias.map((categoria, i) => (
+                <option key={i}>{categoria}</option>
+              ))}
             </Form.Select>
           </Col>
           <Col>
-          <Button variant="success" className="w-100"><BagPlus /> Agregar</Button></Col>
+            <BotonModalCrear />
+          </Col>
         </Row>
       </Col>
     </Row>
