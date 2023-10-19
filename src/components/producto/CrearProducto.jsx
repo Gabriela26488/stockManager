@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import { url } from "../../backend";
 
-export const CrearProducto = ({ onHide }) => {
+export const CrearProducto = ({ onHide, cargarProductos }) => {
   const valoresDefecto = {
     nombre: "",
     descripcion: "",
@@ -62,7 +62,7 @@ export const CrearProducto = ({ onHide }) => {
 				title: 'Error!',
 				icon: 'error',
 				confirmButtonText: 'Continuar',
-				confirmButtonColor: 'btn btn-secondary'
+				confirmButtonColor: '#6c757d'
 			})
 			setCargando(false);
 			return
@@ -76,7 +76,7 @@ export const CrearProducto = ({ onHide }) => {
 					icon: 'success',
 					text: 'El producto se ha guardado',
 					confirmButtonText: 'Continuar',
-					confirmButtonColor: 'btn btn-secondary'
+					confirmButtonColor: '#6c757d'
 				})
 				onHide();
 			})				
@@ -86,12 +86,13 @@ export const CrearProducto = ({ onHide }) => {
 					title: 'Error!',
 					icon: 'error',
 					confirmButtonText: 'Continuar',
-					confirmButtonColor: 'btn btn-secondary'
+					confirmButtonColor: '#6c757d'
 				})
       })
       .finally(() => {
 				setDatos(valoresDefecto);
 				setCargando(false);
+        cargarProductos();
 			});
   }
   return (

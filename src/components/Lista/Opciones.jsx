@@ -2,12 +2,18 @@ import { Col, Row, Form, Button, InputGroup } from "react-bootstrap";
 import { BagPlus, Search } from "react-bootstrap-icons";
 import { BotonModalCrear } from "./BotonModalCrear";
 
-const Opciones = () => {
+const Opciones = ({cargarProductos}) => {
   const categorias = [
-    "Categoria 1",
-    "Categoria 2",
-    "Categoria 3",
-    "Categoria 4",
+    "carniceria",
+    "pescaderia",
+    "charcuteria",
+    "frutas",
+    "verduras",
+    "bebidas",
+    "golosinas",
+    "enlatados",
+    "viveres",
+    "postres",
   ];
   return (
     <Row>
@@ -35,7 +41,7 @@ const Opciones = () => {
             </Form.Select>
           </Col>
           <Col>
-            <BotonModalCrear />
+            <BotonModalCrear cargarProductos={cargarProductos} />
           </Col>
         </Row>
       </Col>

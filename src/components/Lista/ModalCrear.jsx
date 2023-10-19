@@ -14,7 +14,7 @@ export const ModalCrear = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CrearProducto onHide={props.onHide} />
+        <CrearProducto onHide={props.onHide} cargarProductos={props.cargarProductos} />
       </Modal.Body>
     </Modal>
   );

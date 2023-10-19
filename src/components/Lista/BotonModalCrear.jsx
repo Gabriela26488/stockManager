@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { BagPlus } from "react-bootstrap-icons";
 import { ModalCrear } from "./ModalCrear";
 
-export const BotonModalCrear = () => {
+export const BotonModalCrear = ({cargarProductos}) => {
   const [modalCrear, setModalCrear] = useState(false);
   return (
     <>
@@ -15,7 +15,7 @@ export const BotonModalCrear = () => {
         <BagPlus /> Agregar
       </Button>
 
-      <ModalCrear show={modalCrear} onHide={() => setModalCrear(false)} />
+      <ModalCrear show={modalCrear} cargarProductos={cargarProductos} onHide={() => setModalCrear(false)} />
     </>
   );
 };
