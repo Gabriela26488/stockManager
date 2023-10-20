@@ -1,7 +1,7 @@
 import {Modal} from "react-bootstrap";
-import { CrearProducto } from "../producto/CrearProducto";
+import { EditarProducto } from "./EditarProducto";
 
-export const ModalCrear = ({show, onHide, cargarProductos}) => {
+export const ModalEditar = ({show, onHide, valores, cargarProductos}) => {
   return (
     <Modal
       show={show}
@@ -9,13 +9,13 @@ export const ModalCrear = ({show, onHide, cargarProductos}) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header className="bg-success" closeButton>
+      <Modal.Header className="bg-warning" closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Agregar Producto
+          Editar Producto
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CrearProducto onHide={onHide} cargarProductos={cargarProductos} />
+        <EditarProducto cargarProductos={cargarProductos} onHide={onHide} valores={valores} />
       </Modal.Body>
     </Modal>
   );

@@ -1,7 +1,10 @@
-import { Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { url } from "../../backend";
+import { useState } from "react";
 
 export const Formulario = ({ datos, handleChange }) => {
   const categorias = [
+    "",
     "carniceria",
     "pescaderia",
     "charcuteria",
@@ -13,6 +16,9 @@ export const Formulario = ({ datos, handleChange }) => {
     "viveres",
     "postres",
   ];
+
+
+  const editar = datos._id ? true : false;
 
   return (
     <>
@@ -58,12 +64,13 @@ export const Formulario = ({ datos, handleChange }) => {
         <Form.Label>
           <strong>Categoria:</strong>
         </Form.Label>
-        <Form.Select name="categoria" onChange={handleChange}>
-          <option key="default" value="">
-            --Seleccione--
-          </option>
+        <Form.Select name="categoria" onChange={handleChange} defaultValue={editar ? datos.categoria : ""}>
           {categorias.map((categoria, i) => (
-            <option key={i} value={categoria} className="text-capitalize">
+            <option
+              key={i}
+              value={categoria}
+              className="text-capitalize"
+            >
               {categoria}
             </option>
           ))}
@@ -90,7 +97,7 @@ export const Formulario = ({ datos, handleChange }) => {
           placeholder="Una breve descripción"
           style={{ maxHeight: "120px" }}
           name="descripcion"
-          value={datos.descaripcion}
+          value={datos.descripcion}
           onChange={handleChange}
         />
       </Form.Group>

@@ -5,12 +5,15 @@ import { ModalCrear } from "./ModalCrear";
 
 export const BotonModalCrear = ({cargarProductos}) => {
   const [modalCrear, setModalCrear] = useState(false);
+  const [hover, setHover] = useState(false)
   return (
     <>
       <Button
-        variant="success"
+        variant={hover ? 'success' : 'light'}
         className="w-100"
         onClick={() => setModalCrear(true)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
         <BagPlus /> Agregar
       </Button>

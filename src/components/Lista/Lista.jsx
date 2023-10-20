@@ -1,11 +1,11 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-import Opciones from "./Opciones";
 import { url } from "../../backend";
 import { Producto } from "../producto/Producto";
-import Swal from "sweetalert2";
+import Header from "../header/header";
 
 const Lista = () => {
   const [productos, setProductos] = useState([]);
@@ -42,7 +42,7 @@ const Lista = () => {
               icon: "success",
               text: "El producto ha sido removido.",
               confirmButtonText: "Continuar",
-              confirmButtonColor: "#6c757d",
+              confirmButtonColor: "#28a745",
             })
           );
       }
@@ -80,13 +80,12 @@ const Lista = () => {
   }, []);
   return (
     <div>
+      <Header
+        cargarProductos={cargarProductos}
+        buscarNombre={buscarNombre}
+        buscarCategoria={buscarCategoria}
+      />
       <Container className="mt-5 pt-3">
-        <Opciones
-          cargarProductos={cargarProductos}
-          buscarNombre={buscarNombre}
-          buscarCategoria={buscarCategoria}
-        />
-
         {cargando ? (
           <div className="text-center">
             <Spinner animation="border" variant="secondary" />
