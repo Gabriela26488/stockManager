@@ -1,11 +1,9 @@
-import Lista from "./components/Lista/Lista";
-import Header from "./components/header/header";
+import Lista from "./components/Lista/Lista"; // importamos el componente lista
 
 function App() {
   return (
     <div className="bg-dark-subtle">
       <Lista />
-
     </div>
   );
 }

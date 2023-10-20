@@ -1,8 +1,11 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
-import { url } from "../../backend";
-import { useState } from "react";
+import {Form} from "react-bootstrap";
 
 export const Formulario = ({ datos, handleChange }) => {
+  /* 
+    la variable categoria almacena todes las opciones de categoria
+    en un arreglo para mostrarlas en el formulario con la
+    funcion map
+  */
   const categorias = [
     "",
     "carniceria",
@@ -17,7 +20,11 @@ export const Formulario = ({ datos, handleChange }) => {
     "postres",
   ];
 
-
+  /* 
+    En la variable "editar" se valida si en el prop "datos" se
+    encuentra el id del producto, de ser cierto la variable
+    toma el valor de true.
+  */
   const editar = datos._id ? true : false;
 
   return (

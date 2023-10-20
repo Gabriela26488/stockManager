@@ -2,15 +2,28 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-
 import { url } from "../../backend";
 import { Producto } from "../producto/Producto";
 import Header from "../header/header";
 
 const Lista = () => {
+  /* 
+    el estado "productos es donde se almacenara la lista de los
+    productos registrados, por defecto se inicia con un 
+    arreglo vacio"
+  */
   const [productos, setProductos] = useState([]);
+
+  /* 
+    el estado "cargando" nos sirve para mostrar un 
+    preloader al momento de uqe se este esperando la respuesta a una peticion 
+  */
   const [cargando, setCargando] = useState(false);
 
+  /* 
+    la funcion "cargarProductos" es la que se encarga de hacer la consulta
+    al backend para luego almacenar los datos en el estado de "productos"
+  */
   function cargarProductos() {
     setCargando(true);
     axios
@@ -20,6 +33,12 @@ const Lista = () => {
       .finally(() => setCargando(false));
   }
 
+  /* 
+    la funcion "eliminar" es la que se encarga de hacer la consulta
+    al backend para eliminar un producto y tiene como parametro "id" que
+    su valor sera el id de un producto. Se utiliza la funcion "Swal.fire"
+    para manejar la confirmacion y mostrarla en la interfaz
+  */
   function eliminar(id) {
     Swal.fire({
       title: "Estas seguro de eliminar este producto?",
@@ -49,6 +68,11 @@ const Lista = () => {
     });
   }
 
+  /* 
+    la funcion "buscarNombre" es la que se encarga de hacer la consulta
+    al backend para buscar un producto por su nombre y tiene como parametro "nombre" que
+    su valor sera un string con el nombre de un producto.
+  */
   function buscarNombre(nombre) {
     if (nombre.trim().length == 0) {
       cargarProductos();
@@ -62,6 +86,11 @@ const Lista = () => {
       .finally(() => setCargando(false));
   }
 
+  /* 
+    la funcion "buscarCategoria" es la que se encarga de hacer la consulta
+    al backend para filtrar los productos por categoria y tiene como parametro "categoria" que
+    su valor sera un string con la categoria a buscar.
+  */
   function buscarCategoria(categoria) {
     if (categoria.trim().length == 0) {
       cargarProductos();
@@ -75,6 +104,10 @@ const Lista = () => {
       .finally(() => setCargando(false));
   }
 
+  /* 
+    la funcion de react useEffect ejecutara la funcion "cargarProductos"
+    al cargar el componente
+  */
   useEffect(() => {
     cargarProductos();
   }, []);

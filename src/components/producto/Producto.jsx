@@ -10,6 +10,11 @@ import {
 } from "react-bootstrap-icons";
 import { ModalEditar } from "./ModalEditar";
 
+/* 
+  El componente Producto es donde se agregan los datos de
+  un producto para mostrarlo en la interfaz
+*/
+
 export const Producto = (props) => {
   const [modalShow, setModalShow] = useState(false);
   return (
