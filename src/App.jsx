@@ -1,10 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Lista from "./components/Lista/Lista"; // importamos el componente lista
+import { Auth } from "./components/auth/Auth";
 
 function App() {
   return (
-    <div className="bg-dark-subtle">
-      <Lista />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Auth />} />
+        <Route path="/productos" element={<Lista />} />
+        <Route path="/favoritos" element={<h1>Favoritos</h1>} />
+        <Route path="/*" element={<h1>Ruta Invalida</h1>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
