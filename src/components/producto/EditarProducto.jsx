@@ -59,7 +59,7 @@ export const EditarProducto = ({ onHide, valores, cargarProductos }) => {
   */
   async function handleSubmit(e) {
     e.preventDefault();
-
+    const token = await JSON.parse(localStorage.getItem("token"));
     Swal.fire({
       title: "Estas seguro de editar los datos de este producto?",
       icon: "warning",
@@ -103,14 +103,16 @@ export const EditarProducto = ({ onHide, valores, cargarProductos }) => {
 
         await axios
           .put(`${url}/productos/${valores._id}`, formData, {
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",  Authorization: "Bearer " + token },
           })
           .then(async () => {
             if (datos.imagen !== "") {
               const imagen = new FormData();
               imagen.append("imagen", datos.imagen);
 
-              await axios.put(`${url}/productos/imagen/${valores._id}`, imagen);
+              await axios.put(`${url}/productos/imagen/${valores._id}`, imagen, {
+                headers: { Authorization: "Bearer " + token },
+              });
             }
             Swal.fire({
               title: "Hecho!",
