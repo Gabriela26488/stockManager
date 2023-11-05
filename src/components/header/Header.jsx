@@ -21,7 +21,7 @@ const Header = () => {
       <Navbar expand="lg" className="bg-success bg-gradient">
         <Container>
           <Navbar.Brand href="#home">
-            <img src={logo} alt="logo" style={{ height: "100px" }} />
+            <img src={logo} alt="logo" style={{ height: "75px" }} />
           </Navbar.Brand>
           <Button variant="outline-light" className="py-1" onClick={handleShow}>
             <h4><List className="mt-1"/></h4>

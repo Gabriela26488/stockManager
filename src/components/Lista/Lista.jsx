@@ -1,10 +1,10 @@
-import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { url } from "../../backend";
 import { Producto } from "../producto/Producto";
-import Header from "../header/header";
+import Header from "../header/Header";
 
 const Lista = () => {
   /* 
@@ -20,6 +20,7 @@ const Lista = () => {
   */
   const [cargando, setCargando] = useState(false);
 
+  
   /* 
     la funcion "cargarProductos" es la que se encarga de hacer la consulta
     al backend para luego almacenar los datos en el estado de "productos"

@@ -7,17 +7,25 @@ import { FormRegistro } from "./FormRegistro";
 export const Auth = () => {
   const [registro, setRegistro] = useState(false);
 
+  
+
   return (
     <div className="col-10 col-md-6 col-lg-5 position-absolute top-50 start-50 translate-middle">
       <Card className="bg-white w-100 border border-3 border-black rounded">
         <div className="bg-success text-center">
           <Card.Img variant="top" className="w-50 mx-auto" src={logo} />
         </div>
-        <Card.Body>{!registro ? <FormLogin /> : <FormRegistro />}</Card.Body>
+        <Card.Body>
+          {!registro ? (
+            <FormLogin />
+          ) : (
+            <FormRegistro setRegistro={setRegistro} />
+          )}
+        </Card.Body>
         <Card.Footer>
           {!registro ? (
             <span>
-              No tienes cuenta?{" "}
+              No tienes cuenta?
               <a href="#" onClick={() => setRegistro(!registro)}>
                 registrate aquí!
               </a>
