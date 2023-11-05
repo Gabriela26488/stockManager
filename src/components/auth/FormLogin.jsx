@@ -76,13 +76,17 @@ export const FormLogin = () => {
 						y nos sirve para manejar los mensajes de confirmacion
 						y mostrarlos de una mejor forma en la interfaz
 					*/
-          new Promise((resolve) => {
-            resolve(
-              localStorage.setItem("token", JSON.stringify(res.data.token))
-            );
-          }).then(() => {
-            navigate("/productos");
-          });
+          const token = res.data.token;
+          axios
+            .get(`${url}/usuarios/verificar/usuario`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              const datosUsuario = res.data;
+              localStorage.setItem("token", JSON.stringify(token));
+              localStorage.setItem("usuario", JSON.stringify(datosUsuario));
+              navigate("/productos");
+            });
         })
         .catch((err) => {
           Swal.fire({

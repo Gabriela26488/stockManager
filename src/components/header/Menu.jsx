@@ -1,10 +1,24 @@
-import { Offcanvas, Stack } from "react-bootstrap";
+import { Button, Offcanvas, Stack } from "react-bootstrap";
 import { Buscar } from "./Buscar";
 import { Categorias } from "./Categorias";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export const Menu = ({ show, handleClose }) => {
+export const Menu = ({
+  show,
+  handleClose,
+  cargarProductos,
+  buscarNombre,
+  buscarCategoria,
+}) => {
   const rol = "admin";
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+
+    navigate("/");
+  };
   return (
     <>
       <Offcanvas show={show} onHide={handleClose} placement="end">
@@ -14,10 +28,21 @@ export const Menu = ({ show, handleClose }) => {
         <Offcanvas.Body>
           <Stack>
             <div className="p-2">
-              <Buscar />
+              <Link
+                to="/productos"
+                className="text-start text-decoration-none w-100 btn btn-light"
+              >
+                <span>Productos</span>
+              </Link>
             </div>
             <div className="p-2">
-              <Categorias />
+              <Buscar buscarNombre={buscarNombre} />
+            </div>
+            <div className="p-2">
+              <Categorias
+                buscarCategoria={buscarCategoria}
+                cargarProductos={cargarProductos}
+              />
             </div>
 
             {rol == "admin" ? (
@@ -49,6 +74,16 @@ export const Menu = ({ show, handleClose }) => {
               >
                 <span>Mi cuenta</span>
               </Link>
+            </div>
+
+            <div className="p-2">
+              <Button
+                variant="light"
+                className="text-start text-decoration-none w-100"
+                onClick={handleClick}
+              >
+                <span>Salir</span>
+              </Button>
             </div>
           </Stack>
         </Offcanvas.Body>

@@ -11,7 +11,7 @@ import { Menu } from "./Menu";
   tambien para mostrar las opciones de filtrado y el boton
   para agreagar un producto
 */
-const Header = () => {
+const Header = ({ cargarProductos, buscarNombre, buscarCategoria }) => {
   const [offcanvas, setShowOffcanvas] = useState(false);
   const handleClose = () => setShowOffcanvas(false);
   const handleShow = () => setShowOffcanvas(true);
@@ -24,12 +24,20 @@ const Header = () => {
             <img src={logo} alt="logo" style={{ height: "75px" }} />
           </Navbar.Brand>
           <Button variant="outline-light" className="py-1" onClick={handleShow}>
-            <h4><List className="mt-1"/></h4>
+            <h4>
+              <List className="mt-1" />
+            </h4>
           </Button>
         </Container>
       </Navbar>
 
-      <Menu show={offcanvas} handleClose={handleClose} />
+      <Menu
+        show={offcanvas}
+        handleClose={handleClose}
+        cargarProductos={cargarProductos}
+        buscarNombre={buscarNombre}
+        buscarCategoria={buscarCategoria}
+      />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-export const Categorias = () => {
+export const Categorias = ({buscarCategoria}) => {
   const categorias = [
     "carniceria",
     "pescaderia",
@@ -14,8 +14,12 @@ export const Categorias = () => {
     "postres",
   ];
 
+  function handleCategoria(categoria) {
+    buscarCategoria(categoria);
+  }
+
   return (
-    <Form.Select>
+    <Form.Select onChange={(e) => handleCategoria(e.target.value)}>
       <option key="default" value="">
         Categorias
       </option>

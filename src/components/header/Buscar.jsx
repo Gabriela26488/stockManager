@@ -2,8 +2,9 @@ import { useState } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
 
-export const Buscar = () => {
+export const Buscar = ({buscarNombre}) => {
   const [nombre, setNombre] = useState("");
+  
   return (
     <InputGroup>
       <Form.Control
@@ -13,7 +14,7 @@ export const Buscar = () => {
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
       ></Form.Control>
-      <Button variant="success">
+      <Button variant="success" onClick={() => buscarNombre(nombre)}>
         <Search />
       </Button>
     </InputGroup>

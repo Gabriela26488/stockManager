@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { url } from "../../backend";
 import { Producto } from "../producto/Producto";
 import Header from "../header/Header";
+import { BotonModalCrear } from "./BotonModalCrear";
 
 const Lista = () => {
   /* 
@@ -20,16 +21,67 @@ const Lista = () => {
   */
   const [cargando, setCargando] = useState(false);
 
-  
+  const [usuario, setUsuario] = useState({});
+
   /* 
     la funcion "cargarProductos" es la que se encarga de hacer la consulta
     al backend para luego almacenar los datos en el estado de "productos"
   */
-  function cargarProductos() {
+  async function cargarProductos() {
     setCargando(true);
+
     axios
-      .get(`${url}/productos`)
-      .then((res) => setProductos(res.data))
+      .get(`${url}/productos`, {
+        headers: {
+          Authorization: `Bearer ${await JSON.parse(
+            localStorage.getItem("token")
+          )}`,
+        },
+      })
+      .then(async (res) => {
+        setProductos(res.data);
+        if (usuario.rol == "admin") {
+          setProductos(res.data);
+          return;
+        } else {
+          const listaProductos = res.data;
+          axios
+            .get(`${url}/productos/favoritos/lista`, {
+              headers: {
+                Authorization: `Bearer ${await JSON.parse(
+                  localStorage.getItem("token")
+                )}`,
+              },
+            })
+            .then((res) => {
+              if (res.data.length < 1) {
+                const nuevaLista = listaProductos.map((p) => {
+                  p.favorito = false;
+                  return p;
+                });
+
+                setProductos(nuevaLista);
+              } else {
+                setProductos(
+                  listaProductos.map((p) => {
+                    let data = false;
+                    res.data.forEach((f) => {
+                      if (p._id == f._id) {
+                        data = true;
+                      }
+                    });
+                    if (data) p.favorito = true;
+                    else p.favorito = false;
+
+                    data = false;
+                    return p;
+                  })
+                );
+              }
+            })
+            .catch((err) => console.error(err));
+        }
+      })
       .catch((err) => console.error(err))
       .finally(() => setCargando(false));
   }
@@ -50,12 +102,15 @@ const Lista = () => {
       cancelButtonColor: "#6c757d",
       confirmButtonText: "Si, eliminar",
       cancelButtonText: "No, cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+        const token = await JSON.parse(localStorage.getItem("token"));
         axios
-          .delete(`${url}/productos/${id}`)
-          .then((res) => cargarProductos())
-          .catch((err) => console.error(err))
+          .delete(`${url}/productos/${id}`, {
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then(() => cargarProductos())
+          .catch((err) => console.error(err.response))
           .finally(() =>
             Swal.fire({
               title: "Eliminado!",
@@ -74,14 +129,20 @@ const Lista = () => {
     al backend para buscar un producto por su nombre y tiene como parametro "nombre" que
     su valor sera un string con el nombre de un producto.
   */
-  function buscarNombre(nombre) {
+  async function buscarNombre(nombre) {
     if (nombre.trim().length == 0) {
       cargarProductos();
       return;
     }
     setCargando(true);
     axios
-      .get(`${url}/productos/buscar/${nombre}`)
+      .get(`${url}/productos/buscar/${nombre}`, {
+        headers: {
+          Authorization: `Bearer ${await JSON.parse(
+            localStorage.getItem("token")
+          )}`,
+        },
+      })
       .then((res) => setProductos(res.data))
       .catch((err) => console.error(err))
       .finally(() => setCargando(false));
@@ -92,17 +153,42 @@ const Lista = () => {
     al backend para filtrar los productos por categoria y tiene como parametro "categoria" que
     su valor sera un string con la categoria a buscar.
   */
-  function buscarCategoria(categoria) {
+  async function buscarCategoria(categoria) {
     if (categoria.trim().length == 0) {
       cargarProductos();
       return;
     }
     setCargando(true);
     axios
-      .get(`${url}/productos/categoria/${categoria}`)
+      .get(`${url}/productos/categoria/${categoria}`, {
+        headers: {
+          Authorization: `Bearer ${await JSON.parse(
+            localStorage.getItem("token")
+          )}`,
+        },
+      })
       .then((res) => setProductos(res.data))
       .catch((err) => console.error(err))
       .finally(() => setCargando(false));
+  }
+
+  async function cambiaFavorito(favorito, id) {
+    const token = await JSON.parse(localStorage.getItem("token"));
+    if (favorito) {
+      axios
+        .delete(`${url}/productos/borrar/favorito/${id}`, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then(() => cargarProductos())
+        .catch((err) => console.error(err.response));
+    }else{
+      axios
+        .get(`${url}/productos/agregar/favorito/${id}`, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then(() => cargarProductos())
+        .catch((err) => console.error(err.response));
+    }
   }
 
   /* 
@@ -110,10 +196,16 @@ const Lista = () => {
     al cargar el componente
   */
   useEffect(() => {
-    cargarProductos();
+    new Promise((resolve) => {
+      resolve(JSON.parse(localStorage.getItem("usuario")));
+    }).then((res) => {
+      setUsuario(res);
+      cargarProductos();
+    });
   }, []);
   return (
     <div>
+      <BotonModalCrear />
       <Header
         cargarProductos={cargarProductos}
         buscarNombre={buscarNombre}
@@ -138,6 +230,7 @@ const Lista = () => {
                       valores={producto}
                       cargarProductos={cargarProductos}
                       eliminar={eliminar}
+                      cambiaFavorito={cambiaFavorito}
                     />
                   </Col>
                 ))}
