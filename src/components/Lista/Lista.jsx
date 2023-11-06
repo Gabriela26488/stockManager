@@ -181,7 +181,7 @@ const Lista = () => {
         })
         .then(() => cargarProductos())
         .catch((err) => console.error(err.response));
-    }else{
+    } else {
       axios
         .get(`${url}/productos/agregar/favorito/${id}`, {
           headers: { Authorization: "Bearer " + token },
@@ -205,12 +205,17 @@ const Lista = () => {
   }, []);
   return (
     <div>
-      <BotonModalCrear />
+      {usuario.rol == "admin" ? <BotonModalCrear /> : ""}
       <Header
         cargarProductos={cargarProductos}
         buscarNombre={buscarNombre}
         buscarCategoria={buscarCategoria}
       />
+
+      <div className="mt-5 text-center text-success">
+        <h1>Productos</h1>
+      </div>
+
       <Container className="mt-5 pt-3">
         {cargando ? (
           <div className="text-center">
