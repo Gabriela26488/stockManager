@@ -195,6 +195,29 @@ const Lista = () => {
     la funcion de react useEffect ejecutara la funcion "cargarProductos"
     al cargar el componente
   */
+
+  const [paginaActual, setPaginaActual] = useState(1);
+  const iPorPagina = 8;
+  const ultimoIndice = paginaActual * iPorPagina;
+  const primerIndice = ultimoIndice - iPorPagina;
+  const items = productos.slice(primerIndice, ultimoIndice);
+  const nPagina = Math.ceil(productos.length / iPorPagina);
+  const numeros = [...Array(nPagina + 1).keys()].slice(1);
+
+  const anterior = () => {
+    if (paginaActual != primerIndice) {
+      setPaginaActual(paginaActual - 1);
+    }
+  };
+  const siguiente = () => {
+    if (paginaActual != ultimoIndice) {
+      setPaginaActual(paginaActual + 1);
+    }
+  };
+  const cambiarPagina = (pagina) => {
+    setPaginaActual(pagina);
+  };
+
   useEffect(() => {
     new Promise((resolve) => {
       resolve(JSON.parse(localStorage.getItem("usuario")));
@@ -205,7 +228,11 @@ const Lista = () => {
   }, []);
   return (
     <div>
-      {usuario.rol == "admin" ? <BotonModalCrear /> : ""}
+      {usuario.rol == "admin" ? (
+        <BotonModalCrear cargarProductos={cargarProductos} />
+      ) : (
+        ""
+      )}
       <Header
         cargarProductos={cargarProductos}
         buscarNombre={buscarNombre}
@@ -228,18 +255,64 @@ const Lista = () => {
                 <h1>No se encontraron productos.</h1>
               </div>
             ) : (
-              <Row>
-                {productos.map((producto, i) => (
-                  <Col key={i} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                    <Producto
-                      valores={producto}
-                      cargarProductos={cargarProductos}
-                      eliminar={eliminar}
-                      cambiaFavorito={cambiaFavorito}
-                    />
-                  </Col>
-                ))}
-              </Row>
+              <>
+                <Row>
+                  {items.map((producto, i) => {
+                    if (usuario.rol != "admin" && producto.cantidad < 1) {
+                      return;
+                    } else {
+                      return (
+                        <Col
+                          key={i}
+                          xs={12}
+                          sm={6}
+                          md={4}
+                          lg={3}
+                          className="mb-3"
+                        >
+                          <Producto
+                            valores={producto}
+                            cargarProductos={cargarProductos}
+                            eliminar={eliminar}
+                            cambiaFavorito={cambiaFavorito}
+                          />
+                        </Col>
+                      );
+                    }
+                  })}
+                </Row>
+
+                <div className="mt-3">
+                  <ul className="pagination justify-content-center">
+                    <li className="page-item">
+                      <a href="#" className="page-link" onClick={anterior}>
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    {numeros.map((n, i) => (
+                      <li
+                        className={`page-item ${
+                          paginaActual == n ? "active" : ""
+                        }`}
+                        key={i}
+                      >
+                        <a
+                          href="#"
+                          className="page-link"
+                          onClick={() => cambiarPagina(n)}
+                        >
+                          {n}
+                        </a>
+                      </li>
+                    ))}
+                    <li className="page-item">
+                      <a href="#" className="page-link" onClick={siguiente}>
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </>
             )}
           </>
         )}

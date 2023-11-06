@@ -100,7 +100,13 @@ export const CrearProducto = ({ onHide, cargarProductos }) => {
 		}
 
     await axios
-      .post(`${url}/productos`, formData)
+      .post(`${url}/productos`, formData, {
+        headers: {
+          Authorization: `Bearer ${await JSON.parse(
+            localStorage.getItem("token")
+          )}`,
+        },
+      })
       .then((res) => {
       /* 
         la funcion "Swal.fire" viene de la libreria "sweetalert2"

@@ -43,13 +43,22 @@ export const Favoritos = () => {
               <Spinner variant="success" size="lg" className="mt-5" />
             </div>
           ) : (
-            favoritos.map((favorito, i) => (
-                <Col key={i} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                <Favorito
-                  favorito={favorito}
-                />
-              </Col>
-            ))
+            <>
+              {favoritos.length < 1 ? (
+                <div className="text-center mt-5">
+                  <h1>No se encontraron Favoritos.</h1>
+                </div>
+              ) : (
+                favoritos.map((favorito, i) => {
+                  if (favorito.cantidad < 1) return;
+                  return (
+                    <Col key={i} xs={12} sm={6} md={4} lg={3} className="mb-3">
+                      <Favorito favorito={favorito} />
+                    </Col>
+                  );
+                })
+              )}
+            </>
           )}
         </Row>
       </Container>
