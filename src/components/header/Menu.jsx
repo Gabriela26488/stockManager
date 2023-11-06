@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { Button, Offcanvas, Stack } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Buscar } from "./Buscar";
 import { Categorias } from "./Categorias";
-import { Link, useNavigate } from "react-router-dom";
 
 export const Menu = ({
   show,
@@ -10,8 +11,12 @@ export const Menu = ({
   buscarNombre,
   buscarCategoria,
 }) => {
-  const rol = "admin";
   const navigate = useNavigate();
+  const location = useLocation();
+  const [usuario, setUsuario] = useState({});
+  const cargarUsuario = async () => {
+    setUsuario(JSON.parse(localStorage.getItem("usuario")));
+  };
 
   const handleClick = () => {
     localStorage.removeItem("token");
@@ -19,6 +24,10 @@ export const Menu = ({
 
     navigate("/");
   };
+
+  useEffect(() => {
+    cargarUsuario();
+  }, []);
   return (
     <>
       <Offcanvas show={show} onHide={handleClose} placement="end">
@@ -35,17 +44,23 @@ export const Menu = ({
                 <span>Productos</span>
               </Link>
             </div>
-            <div className="p-2">
-              <Buscar buscarNombre={buscarNombre} />
-            </div>
-            <div className="p-2">
-              <Categorias
-                buscarCategoria={buscarCategoria}
-                cargarProductos={cargarProductos}
-              />
-            </div>
+            {location.pathname == "/productos" ? (
+              <>
+                <div className="p-2">
+                  <Buscar buscarNombre={buscarNombre} />
+                </div>
+                <div className="p-2">
+                  <Categorias
+                    buscarCategoria={buscarCategoria}
+                    cargarProductos={cargarProductos}
+                  />
+                </div>
+              </>
+            ) : (
+              ""
+            )}
 
-            {rol == "admin" ? (
+            {usuario.rol == "admin" ? (
               <div className="p-2">
                 <Link
                   to="/usuarios"

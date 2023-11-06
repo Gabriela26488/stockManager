@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { PlusLg } from "react-bootstrap-icons";
-import { ModalCrear } from "./ModalCrear";
+import { CrearUsuario } from "./CrearUsuario";
 
-export const BotonModalCrear = ({cargarProductos}) => {
-  const [modalCrear, setModalCrear] = useState(false);
+export const BotonCrearUsuario = ({cargaUsuarios}) => {
+  const [modal, setModal] = useState(false);
   return (
     <>
       <Button
@@ -12,12 +12,12 @@ export const BotonModalCrear = ({cargarProductos}) => {
         size="lg"
         className="position-fixed rounded-circle bottom-0 end-0 mb-5 me-5"
         style={{zIndex: 20}}
-        onClick={() => setModalCrear(true)}
+        onClick={() => setModal(true)}
       >
         <PlusLg className="mb-1"/>
       </Button>
 
-      <ModalCrear show={modalCrear} cargarProductos={cargarProductos} onHide={() => setModalCrear(false)} />
+      <CrearUsuario show={modal} cargaUsuarios={cargaUsuarios} onHide={() => setModal(false)} />
     </>
   );
 };
