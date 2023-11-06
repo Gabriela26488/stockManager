@@ -6,6 +6,7 @@ import { url } from "./backend";
 import { Auth } from "./components/auth/Auth";
 import { Usuarios } from "./components/Usuarios/Usuarios";
 import { Perfil } from "./components/perfil/Perfil";
+import { Favoritos } from "./components/favoritos/Favoritos";
 
 function App() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Auth />} />
       <Route path="/productos" element={<Lista />} />
-      <Route path="/favoritos" element={<h1>Favoritos</h1>} />
+      <Route path="/favoritos" element={<Favoritos />} />
       <Route path="/usuarios" element={<Usuarios />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/*" element={<h1>Ruta Invalida</h1>} />

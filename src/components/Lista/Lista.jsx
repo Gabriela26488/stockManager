@@ -216,7 +216,7 @@ const Lista = () => {
         <h1>Productos</h1>
       </div>
 
-      <Container className="mt-5 pt-3">
+      <Container className="mt-5">
         {cargando ? (
           <div className="text-center">
             <Spinner animation="border" variant="secondary" />
