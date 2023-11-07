@@ -133,7 +133,6 @@ export const MostrarDatos = () => {
 
       const token = await JSON.parse(localStorage.getItem("token"));
       const id = usuario._id;
-      console.log(id);
 
       axios
         .put(`${url}/usuarios/${id}`, formData, {

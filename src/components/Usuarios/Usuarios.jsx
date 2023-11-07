@@ -5,10 +5,12 @@ import { url } from "../../backend";
 import { Container, Row, Spinner } from "react-bootstrap";
 import { Usuario } from "./Usuario";
 import { BotonCrearUsuario } from "./BotonCrearUsuario";
+import { useNavigate } from "react-router-dom";
 
 export const Usuarios = () => {
   const [listaUsuarios, setUsuarios] = useState([]);
   const [cargarndo, setCargando] = useState(false);
+  const navigate = useNavigate();
 
   const cargaUsuarios = async () => {
     setCargando(true);
@@ -27,7 +29,15 @@ export const Usuarios = () => {
       .finally(() => setCargando(false));
   };
 
+  const validaRol = async () => {
+    const usuario = await JSON.parse(localStorage.getItem("usuario"))
+    if (usuario.rol != "admin") {
+      navigate("/productos");
+    }
+  }
+
   useEffect(() => {
+    validaRol();
     cargaUsuarios();
   }, []);
 

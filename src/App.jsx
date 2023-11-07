@@ -12,6 +12,13 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* 
+    la funcion verificar login revisa si hay un token en localStorage,
+    de haber token se hace una consulta al bockend para comprobar si es valido.
+    Si el token es valido se guardan los datos del usuario logueado en el localStorage.
+    Si no hay token o este no es valido se redireccionara al usuario al Login
+
+  */
   const verificarLogin = () => {
     new Promise((resolve) => {
       resolve(JSON.parse(localStorage.getItem("token")));

@@ -192,8 +192,7 @@ const Lista = () => {
   }
 
   /* 
-    la funcion de react useEffect ejecutara la funcion "cargarProductos"
-    al cargar el componente
+    variables y funciones para paginar
   */
 
   const [paginaActual, setPaginaActual] = useState(1);
@@ -218,6 +217,10 @@ const Lista = () => {
     setPaginaActual(pagina);
   };
 
+  /* 
+    la funcion de react useEffect ejecutara la funcion "cargarProductos"
+    al cargar el componente
+  */
   useEffect(() => {
     new Promise((resolve) => {
       resolve(JSON.parse(localStorage.getItem("usuario")));

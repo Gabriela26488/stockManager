@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import {
   Form,
@@ -8,16 +7,23 @@ import {
   Col,
   Spinner,
 } from "react-bootstrap";
+import axios from "axios";
 import Swal from "sweetalert2";
-import { url } from "../../backend";
 import { useNavigate } from "react-router-dom";
+import { url } from "../../backend";
 
+/* 
+  en el componente FormLogin es el formulario donde el usuario podra loguearse
+*/
 export const FormLogin = () => {
+  // en el estado datos se guardan los valores para el correo y la contraseña
   const [datos, setDatos] = useState({
     correo: "",
     password: "",
   });
+  // con el estado de error manejaremos los errores de una forma dinamica
   const [error, setError] = useState({ estado: false, msg: {} });
+  // con el estado cargando muestra un loader cuando se haga una consulta al backend
   const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
 
@@ -30,10 +36,12 @@ export const FormLogin = () => {
     setCargando(true);
 
     const formData = new FormData();
+    // la variable reCorreo guarda una expresion regular para hacer la validacion del correo
     const reCorreo = new RegExp(
       "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
     );
 
+    // en la variable errores guardamos los errres que se produscan
     let errores = {};
 
     if (datos.password.length == 0) {
@@ -43,6 +51,12 @@ export const FormLogin = () => {
     if (!reCorreo.test(datos.correo)) {
       errores = { ...errores, correo: `Debe introducir un email valido` };
     }
+
+    /* 
+      revisamos la variable errores, en el caso de existir alguno enviaremos
+      un mensaje de error con sweetAlert y guardaremos los errores en el estado de 
+      error. De lo contrario procedemos a realizar la consulta al backend
+    */
 
     if (Object.keys(errores).length !== 0) {
       setError({
@@ -72,10 +86,9 @@ export const FormLogin = () => {
         })
         .then((res) => {
           /* 
-						la funcion "Swal.fire" viene de la libreria "sweetalert2"
-						y nos sirve para manejar los mensajes de confirmacion
-						y mostrarlos de una mejor forma en la interfaz
-					*/
+            si el  loguin es exitoso procedomos a guardar los datos del usuario en el
+            localStorage luego de verificar sus datos
+          */
           const token = res.data.token;
           axios
             .get(`${url}/usuarios/verificar/usuario`, {

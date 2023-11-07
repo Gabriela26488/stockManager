@@ -4,11 +4,12 @@ import Header from "../header/Header";
 import { useEffect, useState } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { Favorito } from "./Favorito";
+import { useNavigate } from "react-router-dom";
 
 export const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
   const [cargarndo, setCargando] = useState(false);
-
+  const navigate = useNavigate();
   const cargaFavoritos = async () => {
     setCargando(true);
     const token = await JSON.parse(localStorage.getItem("token"));
@@ -25,7 +26,15 @@ export const Favoritos = () => {
       .finally(() => setCargando(false));
   };
 
+  const validaRol = async () => {
+    const usuario = await JSON.parse(localStorage.getItem("usuario"))
+    if (usuario.rol == "admin") {
+      navigate("/productos");
+    }
+  }
+
   useEffect(() => {
+    validaRol();
     cargaFavoritos();
   }, []);
   return (

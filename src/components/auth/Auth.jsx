@@ -1,14 +1,16 @@
+import { useState } from "react";
 import { Card } from "react-bootstrap";
 import logo from "../../assets/StocKManager.png";
 import { FormLogin } from "./FormLogin";
-import { useState } from "react";
 import { FormRegistro } from "./FormRegistro";
+
+/* 
+  en el componente auth se administrara todo lo relacionado al login 
+  y el registro de cuenta
+*/
 
 export const Auth = () => {
   const [registro, setRegistro] = useState(false);
-
-  
-
   return (
     <div className="col-10 col-md-6 col-lg-5 position-absolute top-50 start-50 translate-middle">
       <Card className="bg-white w-100 border border-3 border-black rounded">
